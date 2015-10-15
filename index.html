@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SQL formatter</title>
+</head>
+<body style="background-color: #EEE5DE;">
+<div></div>
+<div style="min-width: 1000px;height: 706px;width: 90%;top: 100px;background-color: #8B8989;margin: auto;margin-top: 60px;">
+	<textarea class="input_sql" style="position:absolute; width:500px;height:300px;left:66px; top:80px"></textarea>
+	<button class="format_button" style="position: absolute;width: 100px;height: 30px;top: 400px;left: 500px;">Format</button>
+	<div class="output_sql" contenteditable style="position: absolute;width: 506px;height: 300px;left: 66px;top: 445px;background-color: white;"></div>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="sql.js"></script>
+<script language="javascript" type="text/javascript">
+   $('.format_button').bind('click', function() {
+		$('.output_sql').html(formatSQL($('.input_sql').val()));
+   });
+   formatSQL = function( primarySqlText ) {
+	   /**
+		* Description
+		* @author  Чекалов Р.В.
+		* @param {string} primarySqlText неотформатированный запрос
+		* @return {string} отформатированный запрос
+		*/
+	   if ((primarySqlText.search(/(select|insert|update|delete)[^Ø]+(from|into|set)/i) !== -1) && (primarySqlText.search(/http:\/\/|https:\/\//i) === -1)) {} else {
+		  return '<pre>' + primarySqlText + '</pre>';
+	   }
+	   var dict = "A,ABORT,ABS,ABSENT,ABSOLUTE,ACCESS,ACCORDING,ACTION,ADA,ADD,ADMIN,AFTER,AGGREGATE,ALIAS,ALL,ALLOCATE,ALSO,ALTER,ALWAYS,ANALYSE,ANALYZE,AND,ANY,ARE,ARRAY,ARRAY_AGG,AS,ASC,ASENSITIVE,ASSERTION,ASSIGNMENT,ASYMMETRIC,AT,ATOMIC,ATTRIBUTE,ATTRIBUTES,AUTHORIZATION,AVG,BACKWARD,BASE64,BEFORE,BEGIN,BERNOULLI,BETWEEN,BIGINT,BINARY,BIT,BITVAR,BIT_LENGTH,BLOB,BLOCKED,BOM,BOOLEAN,BOTH,BREADTH,BY,C,CACHE,CALL,CALLED,CARDINALITY,CASCADE,CASCADED,CASE,CAST,CATALOG,CATALOG_NAME,CEIL,CEILING,CHAIN,CHAR,CHARACTER,CHARACTERISTICS,CHARACTERS,CHARACTER_LENGTH,CHARACTER_SET_CATALOG,CHARACTER_SET_NAME,CHARACTER_SET_SCHEMA,CHAR_LENGTH,CHECK,CHECKED,CHECKPOINT,CLASS,CLASS_ORIGIN,CLOB,CLOSE,CLUSTER,COALESCE,COBOL,COLLATE,COLLATION,COLLATION_CATALOG,COLLATION_NAME,COLLATION_SCHEMA,COLLECT,COLUMN,COLUMNS,COLUMN_NAME,COMMAND_FUNCTION,COMMAND_FUNCTION_CODE,COMMENT,COMMENTS,COMMIT,COMMITTED,COMPLETION,CONCURRENTLY,CONDITION,CONDITION_NUMBER,CONFIGURATION,CONNECT,CONNECTION,CONNECTION_NAME,CONSTRAINT,CONSTRAINTS,CONSTRAINT_CATALOG,CONSTRAINT_NAME,CONSTRAINT_SCHEMA,CONSTRUCTOR,CONTAINS,CONTENT,CONTINUE,CONTROL,CONVERSION,CONVERT,COPY,CORR,CORRESPONDING,COST,COUNT,COVAR_POP,COVAR_SAMP,CREATE,CROSS,CSV,CUBE,CUME_DIST,CURRENT,CURRENT_CATALOG,CURRENT_DATE,CURRENT_DEFAULT_TRANSFORM_GROUP,CURRENT_PATH,CURRENT_ROLE,CURRENT_SCHEMA,CURRENT_TIME,CURRENT_TIMESTAMP,CURRENT_TRANSFORM_GROUP_FOR_TYPE,CURRENT_USER,CURSOR,CURSOR_NAME,CYCLE,DATA,DATABASE,DATALINK,DATE,DATETIME_INTERVAL_CODE,DATETIME_INTERVAL_PRECISION,DAY,DB,DEALLOCATE,DEC,DECIMAL,DECLARE,DEFAULT,DEFAULTS,DEFERRABLE,DEFERRED,DEFINED,DEFINER,DEGREE,DELETE,DELIMITER,DELIMITERS,DENSE_RANK,DEPTH,DEREF,DERIVED,DESC,DESCRIBE,DESCRIPTOR,DESTROY,DESTRUCTOR,DETERMINISTIC,DIAGNOSTICS,DICTIONARY,DISABLE,DISCARD,DISCONNECT,DISPATCH,DISTINCT,DLNEWCOPY,DLPREVIOUSCOPY,DLURLCOMPLETE,DLURLCOMPLETEONLY,DLURLCOMPLETEWRITE,DLURLPATH,DLURLPATHONLY,DLURLPATHWRITE,DLURLSCHEME,DLURLSERVER,DLVALUE,DO,DOCUMENT,DOMAIN,DOUBLE,DROP,DYNAMIC,DYNAMIC_FUNCTION,DYNAMIC_FUNCTION_CODE,EACH,ELEMENT,ELSE,EMPTY,ENABLE,ENCODING,ENCRYPTED,END,ENDEXEC,ENUM,EQUALS,ESCAPE,EVERY,EXCEPT,EXCEPTION,EXCLUDE,EXCLUDING,EXCLUSIVE,EXEC,EXECUTE,EXISTING,EXISTS,EXP,EXPLAIN,EXTENSION,EXTERNAL,EXTRACT,FALSE,FAMILY,FETCH,FILE,FILTER,FINAL,FIRST,FIRST_VALUE,FLAG,FLOAT,FLOOR,FOLLOWING,FOR,FORCE,FOREIGN,FORTRAN,FORWARD,FOUND,FREE,FREEZE,FROM,FS,FULL,FUNCTION,FUNCTIONS,FUSION,G,GENERAL,GENERATED,GET,GLOBAL,GO,GOTO,GRANT,GRANTED,GREATEST,GROUP,GROUPING,HANDLER,HAVING,HEADER,HEX,HIERARCHY,HOLD,HOST,HOUR,ID,IDENTITY,IF,IGNORE,ILIKE,IMMEDIATE,IMMUTABLE,IMPLEMENTATION,IMPLICIT,IMPORT,IN,INCLUDING,INCREMENT,INDENT,INDEX,INDEXES,INDICATOR,INFIX,INHERIT,INHERITS,INITIALIZE,INITIALLY,INLINE,INNER,INOUT,INPUT,INSENSITIVE,INSERT,INSTANCE,INSTANTIABLE,INSTEAD,INT,INTEGER,INTEGRITY,INTERSECT,INTERSECTION,INTERVAL,INTO,INVOKER,IS,ISNULL,ISOLATION,ITERATE,JOIN,K,KEY,KEY_MEMBER,KEY_TYPE,LABEL,LAG,LANGUAGE,LARGE,LAST,LAST_VALUE,LATERAL,LC_COLLATE,LC_CTYPE,LEAD,LEADING,LEAST,LEFT,LENGTH,LESS,LEVEL,LIBRARY,LIKE,LIKE_REGEX,LIMIT,LINK,LISTEN,LN,LOAD,LOCAL,LOCALTIME,LOCALTIMESTAMP,LOCATION,LOCATOR,LOCK,LOWER,M,MAP,MAPPING,MATCH,MATCHED,MAX,MAXVALUE,MAX_CARDINALITY,MEMBER,MERGE,MESSAGE_LENGTH,MESSAGE_OCTET_LENGTH,MESSAGE_TEXT,METHOD,MIN,MINUTE,MINVALUE,MOD,MODE,MODIFIES,MODIFY,MODULE,MONTH,MORE,MOVE,MULTISET,MUMPS,NAME,NAMES,NAMESPACE,NATIONAL,NATURAL,NCHAR,NCLOB,NESTING,NEW,NEXT,NFC,NFD,NFKC,NFKD,NIL,NO,NONE,NORMALIZE,NORMALIZED,NOT,NOTHING,NOTIFY,NOTNULL,NOWAIT,NTH_VALUE,NTILE,NULL,NULLABLE,NULLIF,NULLS,NUMBER,NUMERIC,OBJECT,OCCURRENCES_REGEX,OCTETS,OCTET_LENGTH,OF,OFF,OFFSET,OIDS,OLD,ON,ONLY,OPEN,OPERATION,OPERATOR,OPTION,OPTIONS,OR,ORDER,ORDERING,ORDINALITY,OTHERS,OUT,OUTER,OUTPUT,OVER,OVERLAPS,OVERLAY,OVERRIDING,OWNED,OWNER,P,PAD,PARAMETER,PARAMETERS,PARAMETER_MODE,PARAMETER_NAME,PARAMETER_ORDINAL_POSITION,PARAMETER_SPECIFIC_CATALOG,PARAMETER_SPECIFIC_NAME,PARAMETER_SPECIFIC_SCHEMA,PARSER,PARTIAL,PARTITION,PASCAL,PASSING,PASSTHROUGH,PASSWORD,PATH,PERCENTILE_CONT,PERCENTILE_DISC,PERCENT_RANK,PERMISSION,PLACING,PLANS,PLI,POSITION,POSITION_REGEX,POSTFIX,POWER,PRECEDING,PRECISION,PREFIX,PREORDER,PREPARE,PREPARED,PRESERVE,PRIMARY,PRIOR,PRIVILEGES,PROCEDURAL,PROCEDURE,PUBLIC,QUOTE,RANGE,RANK,READ,READS,REAL,REASSIGN,RECHECK,RECOVERY,RECURSIVE,REF,REFERENCES,REFERENCING,REGR_AVGX,REGR_AVGY,REGR_COUNT,REGR_INTERCEPT,REGR_R2,REGR_SLOPE,REGR_SXX,REGR_SXY,REGR_SYY,REINDEX,RELATIVE,RELEASE,RENAME,REPEATABLE,REPLACE,REPLICA,REQUIRING,RESET,RESPECT,RESTART,RESTORE,RESTRICT,RESULT,RETURN,RETURNED_CARDINALITY,RETURNED_LENGTH,RETURNED_OCTET_LENGTH,RETURNED_SQLSTATE,RETURNING,RETURNS,REVOKE,RIGHT,ROLE,ROLLBACK,ROLLUP,ROUTINE,ROUTINE_CATALOG,ROUTINE_NAME,ROUTINE_SCHEMA,ROW,ROWS,ROW_COUNT,ROW_NUMBER,RULE,SAVEPOINT,SCALE,SCHEMA,SCHEMA_NAME,SCOPE,SCOPE_CATALOG,SCOPE_NAME,SCOPE_SCHEMA,SCROLL,SEARCH,SECOND,SECTION,SECURITY,SELECT,SELECTIVE,SELF,SENSITIVE,SEQUENCE,SEQUENCES,SERIALIZABLE,SERVER,SERVER_NAME,SESSION,SESSION_USER,SET,SETOF,SETS,SHARE,SHOW,SIMILAR,SIMPLE,SIZE,SMALLINT,SOME,SOURCE,SPACE,SPECIFIC,SPECIFICTYPE,SPECIFIC_NAME,SQL,SQLCODE,SQLERROR,SQLEXCEPTION,SQLSTATE,SQLWARNING,SQRT,STABLE,STANDALONE,START,STATE,STATEMENT,STATIC,STATISTICS,STDDEV_POP,STDDEV_SAMP,STDIN,STDOUT,STORAGE,STRICT,STRIP,STRUCTURE,STYLE,SUBCLASS_ORIGIN,SUBLIST,SUBMULTISET,SUBSTRING,SUBSTRING_REGEX,SUM,SYMMETRIC,SYSID,SYSTEM,SYSTEM_USER,T,TABLE,TABLES,TABLESAMPLE,TABLESPACE,TABLE_NAME,TEMP,TEMPLATE,TEMPORARY,TERMINATE,TEXT,THAN,THEN,TIES,TIME,TIMESTAMP,TIMEZONE_HOUR,TIMEZONE_MINUTE,TO,TOKEN,TOP_LEVEL_COUNT,TRAILING,TRANSACTION,TRANSACTIONS_COMMITTED,TRANSACTIONS_ROLLED_BACK,TRANSACTION_ACTIVE,TRANSFORM,TRANSFORMS,TRANSLATE,TRANSLATE_REGEX,TRANSLATION,TREAT,TRIGGER,TRIGGER_CATALOG,TRIGGER_NAME,TRIGGER_SCHEMA,TRIM,TRIM_ARRAY,TRUE,TRUNCATE,TRUSTED,TYPE,UESCAPE,UNBOUNDED,UNCOMMITTED,UNDER,UNENCRYPTED,UNION,UNIQUE,UNKNOWN,UNLINK,UNLISTEN,UNLOGGED,UNNAMED,UNNEST,UNTIL,UNTYPED,UPDATE,UPPER,URI,USAGE,USER,USER_DEFINED_TYPE_CATALOG,USER_DEFINED_TYPE_CODE,USER_DEFINED_TYPE_NAME,USER_DEFINED_TYPE_SCHEMA,USING,VACUUM,VALID,VALIDATE,VALIDATOR,VALUE,VALUES,VARBINARY,VARCHAR,VARIABLE,VARIADIC,VARYING,VAR_POP,VAR_SAMP,VERBOSE,VERSION,VIEW,VOLATILE,WHEN,WHENEVER,WHERE,WHITESPACE,WIDTH_BUCKET,WINDOW,WITH,WITHIN,WITHOUT,WORK,WRAPPER,WRITE,XML,XMLAGG,XMLATTRIBUTES,XMLBINARY,XMLCAST,XMLCOMMENT,XMLCONCAT,XMLDECLARATION,XMLDOCUMENT,XMLELEMENT,XMLEXISTS,XMLFOREST,XMLITERATE,XMLNAMESPACES,XMLPARSE,XMLPI,XMLQUERY,XMLROOT,XMLSCHEMA,XMLSERIALIZE,XMLTABLE,XMLTEXT,XMLVALIDATE";
+
+	   function setComment(str) {
+		  /**
+		   * Функция вытаскивает все комментарии
+		   * и заменяет их контрольными символами
+		   * чтобы они участвовали построении графа запроса
+		   * в целом одним узлом
+		   * @param {string} [str] исходный запрос
+		   * @return {object} [возвращает объект в котором есть отформатированная строка и массивы с комментариями]
+		   */
+		  str = str.replace(/\*\//g, '*/ Ø');
+		  var massMinus = str.match(/--.+/g);
+		  var massSlash = str.match(/\/\/.+/g);
+		  var massOldCom = str.match(/\/\*[^Ø]+\*\//gm);
+		  var strResult = str.replace(/--.+/g, ' |##| ');
+		  strResult = strResult.replace(/\/\/.+/g, ' |###| ');
+		  strResult = strResult.replace(/\/\*[^Ø]+\*\//gm, ' |####| ');
+		  var result = {
+			 sql: strResult,
+			 minus: massMinus,
+			 slash: massSlash,
+			 oldCom: massOldCom
+		  };
+		  return result;
+	   }
+
+	   function getComment(sql, objWithComm) {
+		  /**
+		   * Функция возвращает все комментарии
+		   * в запрос на их места
+		   * и подсвечивает зеленым
+		   * @param {string} [sql] [запрос в который нужно вставить комментарии]
+		   * @param {object} [objWithComm] [объект с массивами комментариев]
+		   * @return {string} [sql] запрос с комментариями
+		   */
+		  var minus = objWithComm.minus,
+			 slash = objWithComm.slash,
+			 oldCom = objWithComm.oldCom;
+		  if (minus !== null) {
+			 for (var i = 0; i < minus.length; i++) {
+				sql = sql.replace(/[|][#][#][|]/, '<span style="color:green">' + minus[i] + '</span>');
+			 }
+		  }
+		  if (slash !== null) {
+			 for (var i = 0; i < slash.length; i++) {
+				sql = sql.replace(/[|][#][#][#][|]/, '<span style="color:green">' + slash[i] + '</span>');
+			 }
+		  }
+
+		  if (oldCom !== null) {
+			 for (var i = 0; i < oldCom.length; i++) {
+				sql = sql.replace(/[|][#][#][#][#][|]/, '<span style="color:green">' + oldCom[i] + '</span>');
+			 }
+		  }
+		  return sql;
+	   }
+
+	   function strToMass(str) {
+		  /**
+		   * Функция преобразует строку запроса
+		   * в массив слов этого запроса
+		   * @param {string} [str] [строка исходного запроса]
+		   * @return {array} [массив из слов этого запроса]
+		   */
+		  str = str.replace(/["]/g, '"');
+		  str = str.replace(/[']/g, '\'');
+		  str = str.replace(/[(]/g, ' ( ');
+		  str = str.replace(/[)]/g, ' ) ');
+		  str = str.replace(/[,]/g, ' , ');
+		  str = str.replace(/\s+/g, ' ');
+		  str = str.replace(/^\s/, '');
+		  str = str.replace(/\s{1,}$/, '');
+		  var mass = str.split(' ');
+		  return mass;
+	   }
+
+	   function sqlToObj(mass) {
+		  /**
+		   * Функция преобразует массив из слов запроса
+		   * в графообразный объект
+		   * @param {array} [mass] [массив слов запроса]
+		   * @return {SqlObj} [возвращается граф запроса]
+		   */
+		  var length = mass.length;
+		  var sqlObj = new SqlObj('');
+		  var nowObj = sqlObj;
+		  var simpleStr = '';
+		  for (var i = 0; i < length; i++) {
+			 if (mass[i].search(/SELECT|INSERT|DELETE|UPDATE|UNION|WITH/i) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+
+				if (nowObj instanceof AndObj) {
+				   nowObj = nowObj.getParent;
+				}
+				var parent = nowObj;
+				while (true) {
+				   if (parent instanceof SqlObj) {
+					  break;
+				   }
+				   if (parent instanceof BracketObj) {
+					  break;
+				   }
+				   parent = parent.getParent;
+				}
+				var newObj = new MainPhraseObj(mass[i]);
+				try {
+				   parent.addChild(newObj);
+				} catch (e) {}
+				nowObj = newObj;
+				continue;
+			 }
+
+			 if ((mass[i] === '|##|') || (mass[i] === '|###|') || (mass[i] === '|####|')) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				var newObj = new CommentObj(mass[i]);
+				nowObj.addChild(newObj);
+				continue;
+			 }
+
+			 if (mass[i].search(/LEFT|RIGTH|INNER|OUTER/i) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				var fromObj = getChildByName(nowObj, 'FROM');
+				var newObj = new InFromObj(mass[i]);
+				fromObj.addChild(newObj);
+				nowObj = newObj;
+				continue;
+			 }
+
+			 if (mass[i].search(/FROM|ORDER|GROUP|WHERE/i) != -1) {
+				if (mass[i].search(/GROUPS/i) === -1) {
+					if (simpleStr.length > 0) {
+						var simple = new SimpleObj(simpleStr);
+						nowObj.addChild(simple);
+						simpleStr = '';
+					}
+					if (nowObj instanceof AndObj) {
+						nowObj = nowObj.getParent;
+					}
+					var mainObj = nowObj;
+					while (true) {
+						if (mainObj instanceof MainPhraseObj) {
+							break;
+						}
+
+						if (mainObj instanceof BracketObj) {
+							break;
+						}
+						mainObj = mainObj.getParent;
+					}
+					var newObj = new PhraseObj(mass[i]);
+					mainObj.addChild(newObj);
+					nowObj = newObj;
+					continue;
+				}
+			 }
+
+			 if (mass[i].search(/AND|ON|OR/i) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				if (nowObj instanceof AndObj) {
+				   nowObj = nowObj.getParent;
+				}
+				var newObj = new AndObj(mass[i]);
+				nowObj.addChild(newObj);
+				nowObj = newObj;
+				continue;
+			 }
+
+			 if (mass[i].search(/[(]/) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				var newObj = new BracketObj('');
+				nowObj.addChild(newObj);
+				nowObj = newObj;
+				continue;
+			 }
+
+			 if (mass[i].search(/[)]/) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				var mainObj = nowObj;
+				while (true) {
+				   if (mainObj instanceof BracketObj) {
+					  break;
+				   }
+				   mainObj = mainObj.getParent;
+				}
+				nowObj = mainObj.getParent;
+				continue;
+			 }
+
+			 if (mass[i].search(/[,]/) != -1) {
+				if (simpleStr.length > 0) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				var newObj = new CommaObj(mass[i]);
+				nowObj.addChild(newObj);
+				continue;
+			 }
+
+			 if (true) {
+				simpleStr += ' ' + mass[i];
+				if (i == length - 1) {
+				   var simple = new SimpleObj(simpleStr);
+				   nowObj.addChild(simple);
+				   simpleStr = '';
+				}
+				continue;
+			 }
+		  }
+		  return sqlObj;
+	   }
+
+	   function getChildByName(parent, name) {
+		  /**
+		   * Функция возвращающая дочерний элемент по имени
+		   */
+		  while ((parent instanceof SqlObj) !== true) {
+			 for (var k = parent.value.length - 1; k >= 0; k--) {
+				if (parent.value[k].storage.search(new RegExp(name, 'i')) != -1) {
+				   return parent.value[k];
+				}
+			 }
+			 parent = parent.getParent;
+		  }
+		  return parent;
+	   }
+
+	   function setBracket(mas) {
+		  /**
+		   * Функция находит все открывающие скобки
+		   * и все соответствующие закрывающие
+		   * @param {array} [mas] [массив из слов запроса]
+		   * @return {{array, array}} [возвращает объект с двумя массивами в первом индексы открывающих скобок, во втором индексы соотв. закрывающих]
+		   */
+		  var length = mas.length,
+			  brack = [],
+			  iteratorOpen = 0,
+			  start = [],
+			  end = [],
+			  countStart = 0,
+			  countEnd = 0;
+
+
+		  for (var i = 0; i < length; i++) {
+			 brack[i] = 0;
+			 if (mas[i].search(/[(]/) != -1) {
+				iteratorOpen++;
+				brack[i] = iteratorOpen;
+				 countStart++;
+			 }
+			 if (mas[i].search(/[)]/) != -1) {
+				brack[i] = ')';
+				 countEnd++;
+			 }
+		  }
+		   if (countStart !== countEnd) {
+			   throw 'Неравное количество открывающих и закрывающих скобок!'
+		   }
+		  while (brack.indexOf(')') !== -1) {
+			 outside: for (var i = 0; i < length; i++) {
+				if (brack[i] > 0) {
+				   if (brack[i] != ')') {
+					  for (var j = i + 1; j < length; j++) {
+						 if (brack[j] > 0) {
+							continue outside;
+						 }
+						 if (brack[j] === ')') {
+							start[brack[i]] = i;
+							brack[j] = brack[i];
+							end[brack[j]] = j;
+							brack[i] = 0;
+							brack[j] = 0;
+							continue outside;
+						 }
+					  }
+				   }
+				}
+			 }
+		  }
+		  var brackets = {
+			 start: start,
+			 end: end
+		  };
+		  return brackets;
+	   }
+
+	   function changeTo(mass, start, end) {
+		  /**
+		   * Функция заменяющая все "незначимые" скобки
+		   * на контрольные символы
+		   * @param {array} [mass] [массив из слов запроса]
+		   * @param {array} [varname] [массив с индексами открывающих скобок]
+		   * @param {array} [varname] [массив с индексами закрывающих скобок]
+		   * @return {array} [массив из слов запроса с замененными "незначимыми" скобками, на контрольные символы]
+		   */
+		  var lengthBrack = start.length;
+		  var length = mass.length;
+		  for (var k = 0; k < lengthBrack; k++) {
+			 var isSelect = false;
+			 for (var i = start[k]; i < end[k]; i++) {
+				if (mass[i].search(/select|SELECT|CASE/i) != -1) {
+				   isSelect = true;
+				}
+			 }
+			 if (isSelect === false) {
+				try {
+				   mass[start[k]] = mass[start[k]].replace(/[(]/, '|*|');
+				} catch (e) {}
+				try {
+				   mass[end[k]] = mass[end[k]].replace(/[)]/, '|**|');
+				} catch (e) {}
+				for (var i = start[k]; i < end[k]; i++) {
+				   try {
+					  mass[i] = mass[i].replace(/[,]/g, '|^|');
+				   } catch (e) {}
+				}
+			 }
+		  }
+		  return mass;
+	   }
+
+	   function changeFrom(str) { /*Замена контрольных символов обратно на скобки и запятые*/
+		  /**
+		   * Функция которая изменяет контрольные символы
+		   * на соотв. им истинные символы
+		   * @param {string} [str] [строка запроса]
+		   * @return {string} [строка запроса]
+		   */
+		  str = str.replace(/[(]/g, '<b>(</b>');
+		  str = str.replace(/[)]/g, '<b>)</b>');
+		  str = str.replace(/[|][*][|]/g, '(');
+		  str = str.replace(/[|][*][*][|]/g, ')');
+		  str = str.replace(/[|][^][|]/g, ', ');
+		  return str;
+	   }
+
+	   /*классы*/
+	   function SimpleObj(storage) {
+		  /**
+		   * Класс содержащий "обычные" слова
+		   * - те что не вошли в другие классы
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.storage = storage;
+		  this.tab = 0;
+		  this.valueCount = 0;
+		  this.getParent = null;
+	   }
+
+	   function MainPhraseObj(storage) {
+		  /**
+		   * Класс содержащий слова типа:
+		   * SELECT, UPDATE, DELETE, INSERT, WITH, UNION
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function PhraseObj(storage) {
+		  /**
+		   * Класс содержащий слова типа:
+		   * FROM, WHERE, ORDER, GROUP
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function InFromObj(storage) {
+		  /**
+		   * Класс содержащий слова которые
+		   * вкладываются в FROM
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function BracketObj(storage) {
+		  /**
+		   * Класс означающий скобки
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function CommaObj(storage) {
+		  /**
+		   * Класс означающий запятую
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+	   }
+
+	   function AndObj(storage) {
+		  /**
+		   * Класс содержащий слова типа:
+		   * AND, ON, OR
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function CommentObj(storage) {
+		  /**
+		   * Класс содержащий комменатрии
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.storage = storage;
+		  this.tab = 0;
+		  this.valueCount = 0;
+		  this.getParent = null;
+	   }
+
+	   function SqlObj(storage) {
+		  /**
+		   * Класс означающий корень графа
+		   * - главный объект
+		   * @param {string} [storage] [слова запроса входящие в данный объект]
+		   */
+		  this.tab = 0;
+		  this.getParent = null;
+		  this.valueCount = 0;
+		  this.addChild = function (obj) {
+			 obj.tab = this.tab + 1;
+			 this.value.push(obj);
+			 obj.getParent = this;
+			 obj.valueCount = this.value.length - 1;
+		  };
+		  this.storage = storage;
+		  this.value = [];
+	   }
+
+	   function read(obj) {
+		  /**
+		   * Функция чтения объекта-графа запроса
+		   * в строку
+		   * @param {SqlObj} [obj] [объект-граф содержащий запрос в структурированном виде]
+		   * @return {string} [строка отформатированного запроса]
+		   */
+		  if (obj instanceof SimpleObj) {
+			 var result = '';
+			 if ((obj.getParent instanceof SqlObj) || (obj.getParent instanceof BracketObj) || (obj.getParent.value[obj.valueCount - 1] instanceof BracketObj) || (obj.getParent.value[obj.valueCount - 1] instanceof CommentObj)) {
+				result += TRANSFER + intToTab(obj.tab) + obj.storage;
+			 } else {
+				result += ' ' + obj.storage;
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof CommentObj) {
+			 var result = '';
+			 if ((obj.getParent instanceof SqlObj) || (obj.getParent instanceof BracketObj) || (obj.getParent.value[obj.valueCount - 1] instanceof BracketObj) || (obj.getParent.value[obj.valueCount - 1] instanceof CommentObj)) {
+				result += TRANSFER + intToTab(obj.tab) + obj.storage;
+			 } else {
+				result += ' ' + obj.storage;
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof MainPhraseObj) {
+			 var result = '';
+			 result = TRANSFER + intToTab(obj.tab) + obj.storage;
+			 for (var i = 0; i < obj.value.length; i++) {
+				result += read(obj.value[i]);
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof PhraseObj) {
+			 var result = '';
+			 result = TRANSFER + intToTab(obj.tab) + obj.storage;
+			 for (var i = 0; i < obj.value.length; i++) {
+				result += read(obj.value[i]);
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof InFromObj) {
+			 var result = '';
+			 result = TRANSFER + intToTab(obj.tab) + obj.storage;
+			 for (var i = 0; i < obj.value.length; i++) {
+				result += read(obj.value[i]);
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof AndObj) {
+			 var result = '';
+			 result = TRANSFER + intToTab(obj.tab) + obj.storage;
+			 for (var i = 0; i < obj.value.length; i++) {
+				result += read(obj.value[i]);
+			 }
+			 return result;
+		  }
+
+		  if (obj instanceof BracketObj) {
+			 var result = TRANSFER + intToTab(obj.tab) + '(' + TRANSFER;
+			 for (var i = 0; i < obj.value.length; i++) {
+				result += read(obj.value[i]);
+			 }
+			 result += TRANSFER + intToTab(obj.tab) + ')' + TRANSFER;
+			 return result;
+		  }
+
+		  if (obj instanceof CommaObj) {
+			 var result = TRANSFER;
+			 var tabObj = obj.getParent;
+			 var tabOfComma = '';
+			 while (true) {
+				tabOfComma += TAB;
+				for (var l = 0; l < tabObj.storage.length; l++) {
+				   tabOfComma += '&nbsp';
+				}
+				if (tabObj instanceof SqlObj) {
+				   break;
+				}
+				tabObj = tabObj.getParent;
+			 }
+			 result += tabOfComma + ',';
+			 return result;
+		  }
+
+		  if (obj instanceof SqlObj) {
+			 var result = '';
+			 for (var i = 0; i < obj.value.length; i++)
+				result += read(obj.value[i]);
+			 return result;
+		  }
+	   }
+
+	   function intToTab(numberOfTab) {
+		  /**
+		   * Функция переводящая целое число
+		   * в строку соответствующего количества табов
+		   * @param {int} [numberOfTab] [количество нужных табов]
+		   * @return {string} [строка с нужным кол-вом табов]
+		   */
+		  var result = '';
+		  for (var i = 0; i < numberOfTab; i++) {
+			 result += TAB;
+		  }
+		  return result;
+	   }
+
+	   function getPhrasesFromSql(mass) {
+		  /**
+		   * Функция получающая массив всех слов
+		   * из запроса которые
+		   * нужно подсветить
+		   * @param {array} [mass] [массив всех слов запроса]
+		   * @return {array} [массив только тех что нужно подсветить]
+		   */
+		  var newMass = [];
+		  var length = mass.length;
+		  for (var i = 0; i < length; i++) {
+			 if (dict.indexOf(mass[i].toUpperCase()) != -1 && mass[i].length > 1 && mass[i] !== '' && mass[i] !== '\s') {
+				newMass.push(mass[i]);
+			 }
+		  }
+		  return newMass;
+	   }
+
+	   function setColored(mtext, mass) {
+		  /**
+		   * Функция подсветки слов
+		   * @param {array} [mtext] [массив всех слов в запросе]
+		   * @param {array} [mass] [массив слов которые нужно подсветить]
+		   * @return {array} [массив слов запроса с подсвеченными словами]
+		   */
+		  var length = mass.length;
+		  mtext = mtext.replace(/[']/g, '|%|');
+		  var bool = false;
+		  while (mtext.search(/[|][%][|]/) != -1) {
+			 if (bool === false) {
+				mtext = mtext.replace(/[|][%][|]/, '<span style="color:red">' + '\'');
+				bool = true;
+			 } else {
+				mtext = mtext.replace(/[|][%][|]/, '\'</span>');
+				bool = false;
+			 }
+		  }
+		  for (var i = 0; i < length; i++) {
+			 if (mass[i].search(/[\*]/) != -1) {} else {
+				mtext = mtext.replace(new RegExp(' ' + mass[i] + ' ', 'gi'), ' <span style="color:blue">' + mass[i] + '</span> ');
+				mtext = mtext.replace(new RegExp(' ' + mass[i] + '</br>', 'gi'), ' <span style="color:blue">' + mass[i] + '</span>' + TRANSFER);
+				mtext = mtext.replace(new RegExp('&nbsp' + mass[i] + ' ', 'gi'), '&nbsp' + '<span style="color:blue">' + mass[i] + '</span> ');
+				mtext = mtext.replace(new RegExp('&nbsp' + mass[i] + '</br>', 'gi'), '&nbsp' + '<span style="color:blue">' + mass[i] + '</span>' + TRANSFER);
+			 }
+		  }
+		  return mtext;
+	   }
+
+	   var dictMass = dict.split(',');
+	   var TAB = '&nbsp&nbsp&nbsp'; /*отступ*/
+	   var TRANSFER = '</br>'; /*перевод строки*/
+	   /*создали словарь контрольных слов*/
+	   var regMainPhrase = /SELECT|INSERT|DELETE|UPDATE|UNION|WITH/i;
+	   var regPhrase = /LEFT|RIGTH|INNER|OUTER/i;
+	   try {
+		  var commentInfo = setComment(primarySqlText);
+		  var sqlStr = commentInfo.sql;
+		  var massiveSqlWords = strToMass(sqlStr);
+		  var massPhraseToColor = getPhrasesFromSql(massiveSqlWords);
+		  var bracketInfo = setBracket(massiveSqlWords);
+		  var newMassiveSql = changeTo(massiveSqlWords, bracketInfo.start, bracketInfo.end);
+		  var graphSql = sqlToObj(newMassiveSql);
+		  var finalSqlText = '<pre>';
+		  finalSqlText += read(graphSql);
+		  finalSqlText = changeFrom(finalSqlText);
+		  finalSqlText = setColored(finalSqlText, massPhraseToColor);
+		  finalSqlText = getComment(finalSqlText, commentInfo);
+		  finalSqlText = finalSqlText.replace(/(<\/br>){2,}/g, '</br>');
+		  finalSqlText = finalSqlText.replace(/[Ø]/g, '');
+		  finalSqlText += '</pre>';
+			return finalSqlText;
+	   } catch (e) {
+		  return '<pre>' + primarySqlText + '</pre>';
+	   }
+	}
+
+</script>
+</body>
+</html>
